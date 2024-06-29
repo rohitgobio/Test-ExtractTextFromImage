@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Upload and Process Image</title>
+  <title>Test : Extract Text from Image</title>
 </head>
 <body>
   <h1>Upload an Image</h1>
@@ -35,7 +35,7 @@
         stopOnFocus: true,
       }).showToast();
 
-      const response = await fetch('https://asia-south1-gobio-text-from-images.cloudfunctions.net/uploadImage', {
+      const response = await fetch('https://asia-south1-gobio-text-from-images.cloudfunctions.net/testExtractTextFromImage', {
         method: 'POST',
         body: formData
       });
