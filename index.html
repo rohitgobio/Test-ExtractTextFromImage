@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upload and Process Image</title>
+</head>
+<body>
+  <h1>Upload an Image</h1>
+  <form id="uploadForm">
+    <input type="file" id="fileInput" name="file" accept="image/*">
+    <button type="submit">Upload</button>
+  </form>
+  <p id="status"></p>
+  
+  <!-- Include the Toastify library -->
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  
+  <script>
+    document.getElementById('uploadForm').addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const fileInput = document.getElementById('fileInput');
+      const file = fileInput.files[0];
+      const formData = new FormData();
+      formData.append('file', file);
+
+      // Display success toast
+      Toastify({
+        text: `Image uploaded successfully!`,
+        duration: 3000,
+        close: true,
+        gravity: 'top',
+        position: 'right',
+        backgroundColor: 'linear-gradient(to right, #00b09b, #96c93d)',
+        stopOnFocus: true,
+      }).showToast();
+
+      const response = await fetch('https://asia-south1-gobio-text-from-images.cloudfunctions.net/uploadImage', {
+        method: 'POST',
+        body: formData
+      });
+
+      const result = await response.json();
+      if (response.ok) {
+        document.getElementById('status').textContent = `Image uploaded successfully: ${result.publicUrl}\nExtracted Text: ${result.textFromImage}`;
+      } else {
+        document.getElementById('status').textContent = `Error: ${result.message}`;
+      }
+    });
+  </script>
+</body>
+</html>
